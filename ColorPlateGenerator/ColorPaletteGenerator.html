@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Color Palette Generator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 500px;
+    }
+    h1 {
+      font-size: 30px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .palette {
+      display: flex;
+      justify-content: space-evenly;
+      margin-top: 20px;
+    }
+    .color-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .color-box:hover {
+      transform: scale(1.1);
+    }
+    .color-code {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #555;
+      cursor: pointer;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Random Color Palette Generator</h1>
+    <div class="palette" id="palette"></div>
+    <button onclick="generateColors()">Generate New Palette</button>
+  </div>
+
+  <script>
+    // Function to generate random hex color codes
+    function generateRandomColor() {
+      const hex = Math.floor(Math.random() * 16777215).toString(16);
+      return `#${hex.padStart(6, '0')}`;
+    }
+
+    // Function to generate a random color palette
+    function generateColors() {
+      const paletteContainer = document.getElementById('palette');
+      paletteContainer.innerHTML = ''; // Clear the existing palette
+
+      for (let i = 0; i < 5; i++) {
+        const color = generateRandomColor();
+        const colorBox = document.createElement('div');
+        colorBox.classList.add('color-box');
+        colorBox.style.backgroundColor = color;
+
+        // Create the color code display element
+        const colorCode = document.createElement('div');
+        colorCode.classList.add('color-code');
+        colorCode.textContent = color;
+        colorCode.onclick = () => copyToClipboard(color); // Copy color code when clicked
+
+        // Append color box and code to the container
+        colorBox.appendChild(colorCode);
+        paletteContainer.appendChild(colorBox);
+      }
+    }
+
+    // Function to copy color code to clipboard
+    function copyToClipboard(color) {
+      const textArea = document.createElement('textarea');
+      textArea.value = color;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert(`${color} copied to clipboard!`);
+    }
+
+    // Initialize with a random palette
+    generateColors();
+  </script>
+
+</body>
+</html>
